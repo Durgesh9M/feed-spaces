@@ -10,6 +10,13 @@ class FeedSpacesScreen extends StatefulWidget {
 class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Feed Spaces'),),body: Center(child: Text('We are on the feed spaces screen'),),);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Feed Spaces'),
+      ),
+      body: Center(
+        child: Text('We are on the feed spaces screen'),
+      ),
+    );
   }
 }
