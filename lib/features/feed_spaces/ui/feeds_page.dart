@@ -21,8 +21,8 @@ class _FeedsPageState extends State<FeedsPage> {
         child: Column(
           children: [
             PostCard(
-              height: 250,
-              width: 300,
+              height: 290,
+              width: 350,
               imageUrl: AssetImage("assets/images/cat.jpg"),
               radius: 25,
               author: "ahbbac",
@@ -31,9 +31,14 @@ class _FeedsPageState extends State<FeedsPage> {
                 fontSize: 20.0,
               ),
               title: "Ai is new Development",
-              content: "shasjhdahchjc\n sjbcajbcabjbc \n scjabjba ba bab jbjjbsj \n habscbhcbbbd \n",
+              content: "shasjhdahchjcsdsjssjhhskhhfhfhfhwhf\n sjbcajbcabjbcchcjjwgjjwwjejdkwvkw \n scjabjba ba bab jbjjbsj jwKJFHwfJFIjfwjfwjfacads\n habscbhcbbbd chchWLQJLQJLQJFLJALJ\n",
               IconButton: IconButton(onPressed: (){},
                   icon: Icon(Icons.favorite)),
+              likesCount: 10,
+              IconButton2: IconButton(onPressed: (){},
+                  icon: Icon(Icons.comment)),
+              commentCount: 2,
+              date: DateTime.now(),
             )
 
           ],

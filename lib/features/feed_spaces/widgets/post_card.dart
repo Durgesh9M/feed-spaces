@@ -11,6 +11,7 @@ class PostCard extends StatelessWidget {
   final ImageProvider? imageUrl;
   final DateTime? date;
   final Widget? IconButton;
+  final Widget? IconButton2;
   final Widget? Icon;
   final Widget? child;
   final double? height;
@@ -37,19 +38,22 @@ class PostCard extends StatelessWidget {
         this.titleStyle,
         this.subTitleStyle,
         this.contentStyle,
-        this.author});
+        this.author,
+        this.IconButton2});
 
   @override
 
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        // padding: EdgeInsets.all(16.0),
         height: height,
         width: width,
         child: Card(
           margin: EdgeInsets.all(16.0),
           color: Colors.grey[200],
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -72,22 +76,22 @@ class PostCard extends StatelessWidget {
               ),
               Text(title ?? "kkncnkckcd",),
               Text(content ?? "xkxnak",
-              textAlign: TextAlign.start,),
+              textAlign: TextAlign.left,),
               Divider(
                 thickness: 1.0,
                 color: Colors.grey,
               ),
-          //     Row(
-          //       children: [
-          //         IconButton!,
-          //         Text(likesCount.toString()),
-          //         SizedBox(width: 10.0,),
-          //         IconButton!,
-          //         Text(likesCount.toString()),
-          //         SizedBox(width: 20.0,),
-          //         Text(date!.timeZoneName),
-          //   ],
-          // ),
+              Row(
+                children: [
+                  IconButton!,
+                  Text(likesCount.toString()),
+                  SizedBox(width: 10.0,),
+                  IconButton2!,
+                  Text(commentCount.toString()),
+                  SizedBox(width: 20.0,),
+                  Text(date!.toString().substring(0,10)),
+            ],
+          ),
         ]
         ),
       ),
