@@ -1,8 +1,9 @@
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
-import 'package:feed_spaces/features/feed_spaces/ui/widgets/feed_screen.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'widgets/feed_screen.dart';
 
 class FeedSpacesScreen extends StatefulWidget {
   const FeedSpacesScreen({super.key});

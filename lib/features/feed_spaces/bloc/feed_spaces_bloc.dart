@@ -15,7 +15,7 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
       TabChangeEvent event, Emitter<FeedSpacesState> emit) async {
     try {
       selectedTabIndex = event.index;
-      emit(TabSelectedIndex(currentIndex: selectedTabIndex));
+      emit(TabSelectedIndex());
     } on Exception catch (e) {
       print(e);
     }
