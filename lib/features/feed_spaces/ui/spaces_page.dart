@@ -41,7 +41,7 @@ class _SpacesPageState extends State<SpacesPage> {
                 Icon(Icons.circle, color: Colors.blue, size: 18.0,),
                 TextButton(onPressed: (){},
                     child: Text("Rezolut Dummy 2" , style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.yellow,
                       fontSize: 16.0,
                     ),)),
               ],
