@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:feed_spaces/core/utils/app_colors.dart';
+import 'package:feed_spaces/features/models/spaces_model.dart';
+import 'package:feed_spaces/features/source/api_service.dart';
 import 'package:flutter/material.dart';
 
 class SpacesScreen extends StatefulWidget {
@@ -9,6 +13,25 @@ class SpacesScreen extends StatefulWidget {
 }
 
 class _SpacesScreenState extends State<SpacesScreen> {
+  final ApiService _apiService = ApiService();
+  List<SpacesModel> spacesList = [];
+
+
+
+
+   @override
+  void initState() {
+  fetchSpaces();
+  }
+  void fetchSpaces() async {
+     final List<SpacesModel> fetchSpaceList = await _apiService.fetchSpaces();
+
+    setState((){
+     spacesList = fetchSpaceList;
+    });
+     print("Spaces List: ${jsonEncode(spacesList)}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,51 +49,62 @@ class _SpacesScreenState extends State<SpacesScreen> {
             Text("Rezolut",
               style: TextStyle(fontSize: 22.0,
                   fontWeight: FontWeight.bold),),
-            Row(
-              children: [
-                Icon(Icons.circle, color: AppColors.blue,
+            GestureDetector(
+              onTap: (){
+                print("Tapped");
+              },
+              child: ListTile(
+                leading: Icon(Icons.circle, color: AppColors.blue,
                   size: 18.0,),
-                TextButton(onPressed: (){},
-                    child: Text("Rezolut Dummy 1" , style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),)),
-              ],
+                title: Text("Rezolut Dummy 1" , style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                ),)
+              ),
             ),
-            Row(
-              children: [
-                Icon(Icons.circle, color: AppColors.blue, size: 18.0,),
-                TextButton(onPressed: (){},
-                    child: Text("Rezolut Dummy 2" , style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),)),
-              ],
+            GestureDetector(
+              onTap: (){
+                print("Tapped");
+              },
+              child: ListTile(
+                  leading: Icon(Icons.circle, color: AppColors.blue,
+                    size: 18.0,),
+                  title: Text("Rezolut Dummy 1" , style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),)
+              ),
             ),
-            Row(
-              children: [
-                Icon(Icons.circle, color: AppColors.blue, size: 18.0,),
-                TextButton(onPressed: (){},
-                    child: Text("Rezolut Dummy 3" , style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),)),
-              ],
+            GestureDetector(
+              onTap: (){
+                print("Tapped");
+              },
+              child: ListTile(
+                  leading: Icon(Icons.circle, color: AppColors.blue,
+                    size: 18.0,),
+                  title: Text("Rezolut Dummy 1" , style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),)
+              ),
             ),
-            SizedBox(height: 22.0,),
+            // SizedBox(height: 22.0,),
             Text("Tinker Village",
               style: TextStyle(fontSize: 16.0,
                   fontWeight: FontWeight.bold),),
 
-            Row(
-              children: [
-                Icon(Icons.circle, color: AppColors.blue, size: 18.0,),
-                TextButton(onPressed: (){},
-                    child: Text("Teachers", style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),)),
-              ],
+            GestureDetector(
+              onTap: (){
+                print("Tapped5");
+              },
+              child: ListTile(
+                  leading: Icon(Icons.circle, color: AppColors.blue,
+                    size: 18.0,),
+                  title: Text("Tinker Village" , style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),)
+              ),
             ),
           ],
         ),

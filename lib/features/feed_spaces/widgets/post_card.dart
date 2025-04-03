@@ -1,6 +1,7 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PostCard extends StatelessWidget {
   final String? author;
@@ -20,6 +21,7 @@ class PostCard extends StatelessWidget {
   final double? radius;
   final int? likesCount;
   final int? commentCount;
+  final String? role;
 
   const PostCard(
       {super.key,
@@ -39,7 +41,8 @@ class PostCard extends StatelessWidget {
       this.subTitleStyle,
       this.contentStyle,
       this.author,
-        this.Icon2,});
+        this.Icon2, 
+        this.role,});
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +54,51 @@ class PostCard extends StatelessWidget {
             // border: Border.all(color: Colors.black)
           ),
           // padding: EdgeInsets.all(16.0),
-          height: height,
-          width: width,
+          // height: height,
+          // width: width,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            // mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: imageUrl,
-                  radius: radius,
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: imageUrl,
+                      radius: radius,
+                    ),
+                    SizedBox(width: 3.0),
+                    Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          author!,
+                          style: TextStyle(fontWeight: FontWeight.bold,
+                              fontSize: 14.0),
+                        ),
+                        Text(
+                          subtitle!,
+                          style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 4.0,),
+                    if (role != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          role!,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  ],
                 ),
-                title: Text(
-                  author!,
-                  style: TextStyle(fontWeight: FontWeight.bold,
-                  fontSize: 14.0),
-                ),
-                subtitle: subtitle != null ? Text(subtitle!,
-                style: TextStyle(fontSize: 12.0),) : null,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),

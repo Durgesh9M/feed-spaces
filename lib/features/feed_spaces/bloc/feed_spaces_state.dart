@@ -10,3 +10,15 @@ class TabSelectedIndex extends FeedSpacesState {
 
   TabSelectedIndex(this.currentIndex);
 }
+
+class FetchSpaceGroupNameLoading extends FeedSpacesState {}
+
+class FetchSpaceGroupNameSuccess extends FeedSpacesState {
+  final List<SpacesModel?> spacesList;
+  FetchSpaceGroupNameSuccess(this.spacesList);
+}
+
+class FetchSpaceGroupNameError extends FeedSpacesState {
+  final String message;
+  FetchSpaceGroupNameError(this.message);
+}

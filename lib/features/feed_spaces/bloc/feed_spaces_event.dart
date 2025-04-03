@@ -9,3 +9,7 @@ class TabChangeEvent extends FeedSpacesEvent {
   TabChangeEvent({required this.index});
 
 }
+
+class FetchSpaceGroupNameEvent extends FeedSpacesEvent {
+
+}

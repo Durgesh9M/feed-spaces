@@ -1,8 +1,11 @@
 import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_screen.dart';
+import 'package:feed_spaces/features/source/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/feed_screen.dart';
 
@@ -14,13 +17,16 @@ class FeedSpacesScreen extends StatefulWidget {
 }
 
 class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
-  final FeedSpacesBloc feedSpacesBloc = FeedSpacesBloc();
+  final FeedSpacesBloc feedSpacesBloc = FeedSpacesBloc(ApiService());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Feed Spaces'),
+        // scrolledUnderElevation: 0,
+        forceMaterialTransparency: true,
+        // surfaceTintColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -68,7 +74,7 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
               },
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             BlocBuilder<FeedSpacesBloc, FeedSpacesState>(
               bloc: feedSpacesBloc,
