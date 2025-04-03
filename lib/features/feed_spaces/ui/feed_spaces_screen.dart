@@ -2,6 +2,7 @@ import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'widgets/feed_screen.dart';
 
@@ -25,17 +26,29 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.home, color: Colors.white),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Icon(Icons.home, color: Colors.white),
+            // ),
+
+            SvgPicture.asset(
+              'assets/icons/.svg',
+              height: 24,
+              width: 24,
+              alignment: Alignment.center,
+              // color: Colors.white,
+              // Optional: show a placeholder while loading.
+              // placeholderBuilder: (BuildContext context) =>
+              //     const CircularProgressIndicator(),
             ),
+
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.checklist_rounded, color: Colors.white),
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.add, color: Colors.white),
+              icon: Icon(Icons.add_rounded, color: Colors.white),
             ),
             IconButton(
               onPressed: () {},
@@ -99,6 +112,13 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
               SizedBox(
                 height: 10,
               ),
+              SvgPicture.asset(
+                'assets/icons/feed_dashboard_fill_icon.svg',
+                color: Colors.black,
+                height: 24,
+                width: 24,
+              ),
+
               BlocBuilder<FeedSpacesBloc, FeedSpacesState>(
                 bloc: feedSpacesBloc,
                 builder: (context, state) {
