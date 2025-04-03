@@ -1,3 +1,4 @@
+import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_screen.dart';
 import 'package:flutter/material.dart';
@@ -111,12 +112,6 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
               ),
               SizedBox(
                 height: 10,
-              ),
-              SvgPicture.asset(
-                'assets/icons/feed_dashboard_fill_icon.svg',
-                color: Colors.black,
-                height: 24,
-                width: 24,
               ),
 
               BlocBuilder<FeedSpacesBloc, FeedSpacesState>(
