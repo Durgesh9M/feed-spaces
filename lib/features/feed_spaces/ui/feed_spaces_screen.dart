@@ -1,3 +1,4 @@
+import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,12 +36,14 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                           style: ButtonStyle(
                               backgroundColor: WidgetStatePropertyAll(
                                   feedSpacesBloc.selectedTabIndex == 0
-                                      ? Colors.orange
-                                      : Colors.grey.shade200)),
+                                      ? AppColors.black
+                                      : AppColors.grey)),
                           onPressed: () {
                             feedSpacesBloc.add(TabChangeEvent(index: 0));
                           },
-                          child: Text('Feed')),
+                          child: Text('Feed', style: TextStyle(
+                            color: Colors.white
+                          ),)),
                     ),
                     SizedBox(
                       width: 10,
@@ -50,12 +53,14 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                         style: ButtonStyle(
                             backgroundColor: WidgetStatePropertyAll(
                                 feedSpacesBloc.selectedTabIndex == 1
-                                    ? Colors.orange
-                                    : Colors.grey.shade200)),
+                                    ? AppColors.black
+                                    : AppColors.grey)),
                         onPressed: () {
                           feedSpacesBloc.add(TabChangeEvent(index: 1));
                         },
-                        child: Text('Spaces'),
+                        child: Text('Spaces',  style: TextStyle(
+                            color: Colors.white
+                        )),
                       ),
                     ),
                   ],

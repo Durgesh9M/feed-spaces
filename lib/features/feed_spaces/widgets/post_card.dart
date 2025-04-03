@@ -1,3 +1,5 @@
+import 'package:expandable_text/expandable_text.dart';
+import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PostCard extends StatelessWidget {
@@ -10,9 +12,8 @@ class PostCard extends StatelessWidget {
   final TextStyle? contentStyle;
   final ImageProvider? imageUrl;
   final DateTime? date;
-  final Widget? IconButton;
-  final Widget? IconButton2;
   final Widget? Icon;
+  final Widget? Icon2;
   final Widget? child;
   final double? height;
   final double? width;
@@ -27,75 +28,102 @@ class PostCard extends StatelessWidget {
       this.content,
       this.imageUrl,
       this.date,
-      this.IconButton,
       this.Icon,
       this.child,
-        this.height,
-        this.width,
-        this.radius,
-        this.likesCount,
-        this.commentCount,
-        this.titleStyle,
-        this.subTitleStyle,
-        this.contentStyle,
-        this.author,
-        this.IconButton2});
+      this.height,
+      this.width,
+      this.radius,
+      this.likesCount,
+      this.commentCount,
+      this.titleStyle,
+      this.subTitleStyle,
+      this.contentStyle,
+      this.author,
+        this.Icon2,});
 
   @override
-
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        // padding: EdgeInsets.all(16.0),
-        height: height,
-        width: width,
-        child: Card(
-          margin: EdgeInsets.all(16.0),
-          color: Colors.grey[200],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: imageUrl,
-                    radius: radius,
-                  ),
-                  SizedBox(width: 10.0,),
-                  Column(
-                    children: [
-                      Text(author ?? "hbchbc", style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22.0,
-                        color: Colors.black,
-                      ),),
-                      Text(subtitle ?? "bsbbaj"),
-                    ],
-                  )
-                ]
-              ),
-              Text(title ?? "kkncnkckcd",),
-              Text(content ?? "xkxnak",
-              textAlign: TextAlign.left,),
-              Divider(
-                thickness: 1.0,
-                color: Colors.grey,
-              ),
-              Row(
-                children: [
-                  IconButton!,
-                  Text(likesCount.toString()),
-                  SizedBox(width: 10.0,),
-                  IconButton2!,
-                  Text(commentCount.toString()),
-                  SizedBox(width: 20.0,),
-                  Text(date!.toString().substring(0,10)),
-            ],
+          decoration: BoxDecoration(
+            color: AppColors.lightGrey,
+            borderRadius: BorderRadius.circular(20.0),
+            // border: Border.all(color: Colors.black)
           ),
-        ]
-        ),
-      ),
-      ),
+          // padding: EdgeInsets.all(16.0),
+          height: height,
+          width: width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: imageUrl,
+                  radius: radius,
+                ),
+                title: Text(
+                  author!,
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                  fontSize: 14.0),
+                ),
+                subtitle: subtitle != null ? Text(subtitle!,
+                style: TextStyle(fontSize: 12.0),) : null,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child:               Text(title ?? "", style: TextStyle(fontWeight: FontWeight.bold,
+                      fontSize: 16.0),),
+                ),
+              ),
+              if (content != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExpandableText(
+                    content!,
+                    style: TextStyle(fontSize: 14.0),
+                    expandText: "\nShow more",
+                    expandOnTextTap: true,
+                    collapseText: "\nShow less",
+                    maxLines: 5,
+                    linkColor: Colors.black,
+                    linkStyle: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: (){},
+                          child: Icon,
+                        ),
+                        // IconButton!,
+                        Text(likesCount!.toString() ?? ""),
+                        SizedBox(width: 8.0,),
+                        InkWell(
+                          onTap: (){},
+                          child: Icon2,
+                        ),
+                        Text(commentCount!.toString() ?? ""),
+                      ],
+                    ),
+                    Text(date.toString().substring(0, 10) ?? ""),
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }

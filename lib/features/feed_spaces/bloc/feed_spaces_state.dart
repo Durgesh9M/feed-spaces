@@ -6,7 +6,7 @@ sealed class FeedSpacesState {}
 final class FeedSpacesInitial extends FeedSpacesState {}
 
 class TabSelectedIndex extends FeedSpacesState {
-  // final int currentIndex;
+  final int currentIndex;
 
-  // TabSelectedIndex({});
+  TabSelectedIndex(this.currentIndex);
 }
