@@ -1,0 +1,2 @@
+F:/saaifa/feeds_and_spaces/feed-spaces/android/app/.cxx/Debug/3y2k4y1e/armeabi-v7a/CMakeFiles/edit_cache.dir
+F:/saaifa/feeds_and_spaces/feed-spaces/android/app/.cxx/Debug/3y2k4y1e/armeabi-v7a/CMakeFiles/rebuild_cache.dir

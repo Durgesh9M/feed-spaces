@@ -5,6 +5,7 @@ import 'package:feed_spaces/features/source/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/feed_screen.dart';
@@ -22,11 +23,53 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+            color: Colors.black87, borderRadius: BorderRadius.circular(40)),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Icon(Icons.home, color: Colors.white),
+            // ),
+
+            SvgPicture.asset(
+              'assets/icons/.svg',
+              height: 24,
+              width: 24,
+              alignment: Alignment.center,
+              // color: Colors.white,
+              // Optional: show a placeholder while loading.
+              // placeholderBuilder: (BuildContext context) =>
+              //     const CircularProgressIndicator(),
+            ),
+
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.checklist_rounded, color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.add_rounded, color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.menu_book_rounded, color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text('Feed Spaces'),
-        // scrolledUnderElevation: 0,
-        forceMaterialTransparency: true,
-        // surfaceTintColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -74,7 +117,7 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
               },
             ),
             SizedBox(
-              height: 10.h,
+              height: 10,
             ),
             BlocBuilder<FeedSpacesBloc, FeedSpacesState>(
               bloc: feedSpacesBloc,
