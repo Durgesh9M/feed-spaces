@@ -11,9 +11,9 @@ part 'feed_spaces_state.dart';
 
 class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
   int selectedTabIndex = 0;
-  final ApiService apiService;
 
-  FeedSpacesBloc(this.apiService) : super(FeedSpacesInitial()) {
+
+  FeedSpacesBloc() : super(FeedSpacesInitial()) {
     on<TabChangeEvent>(tabChangeEvent);
     on<FetchSpaceGroupNameEvent>(fetchSpaceGroupNameEvent);
   }
@@ -32,8 +32,8 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
       FetchSpaceGroupNameEvent event, Emitter<FeedSpacesState> emit) async{
     emit(FetchSpaceGroupNameLoading());
     try{
-      final List<SpacesModel?> response = await apiService.fetchSpaces();
-      if (response.isEmpty) {
+      final SpacesModel? response = await ApiService().fetchSpaces();
+      if (response == null) {
         emit(FetchSpaceGroupNameError("No spaces found."));
       } else {
         emit(FetchSpaceGroupNameSuccess(response));

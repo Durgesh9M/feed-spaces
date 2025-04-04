@@ -18,7 +18,7 @@ class FeedSpacesScreen extends StatefulWidget {
 }
 
 class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
-  final FeedSpacesBloc feedSpacesBloc = FeedSpacesBloc(ApiService());
+  final FeedSpacesBloc feedSpacesBloc = FeedSpacesBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +70,7 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
       ),
       appBar: AppBar(
         title: Text('Feed Spaces'),
+        forceMaterialTransparency: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

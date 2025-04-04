@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+
 
 import 'package:dio/dio.dart';
 import 'package:feed_spaces/features/models/spaces_model.dart';
@@ -37,10 +39,10 @@ class ApiService {
  //   return [];
  // }
 
- Future<List<SpacesModel>> fetchSpaces() async {
+ Future <SpacesModel?> fetchSpaces() async {
    try {
      final response = await _dio.get(
-       "${ApiEndpoint.baseUrl}${ApiEndpoint.spaces}",
+       "${ApiEndpoint.getSpaces}",
        options: Options(
          headers: {
            "Authorization": "Bearer $_token",
@@ -51,21 +53,14 @@ class ApiService {
      print(" Raw Response Data: ${response.data}");
 
      if (response.statusCode == 200) {
-       // Extract the "data" array
-       final List<dynamic> responseData = response.data;
+       log("response: ${response.data}");
+       return SpacesModel.fromJson(response.data);
 
-       // Convert each JSON object to a SpacesModel instance
-       List<SpacesModel> spacesList =
-       responseData.map((json) => SpacesModel.fromJson(json)).toList();
-
-       print("Fetched Spaces: ${jsonEncode(spacesList)}"); // Prints readable JSON
-
-       return spacesList;
      }
    } catch (e) {
      print("ERROR: $e");
    }
-   return [];
+   return null;
  }
 
 }

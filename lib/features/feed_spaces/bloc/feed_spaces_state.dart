@@ -14,7 +14,7 @@ class TabSelectedIndex extends FeedSpacesState {
 class FetchSpaceGroupNameLoading extends FeedSpacesState {}
 
 class FetchSpaceGroupNameSuccess extends FeedSpacesState {
-  final List<SpacesModel?> spacesList;
+  final SpacesModel? spacesList;
   FetchSpaceGroupNameSuccess(this.spacesList);
 }
 
