@@ -22,10 +22,13 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
+        width: 250,
+        height: 50,
         decoration: BoxDecoration(
-            color: Colors.black87, borderRadius: BorderRadius.circular(40)),
+            color: Colors.black87, borderRadius: BorderRadius.circular(24)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             // IconButton(
             //   onPressed: () {},
@@ -33,42 +36,53 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
             // ),
 
             SvgPicture.asset(
-              'assets/icons/.svg',
-              height: 24,
-              width: 24,
-              alignment: Alignment.center,
+              'assets/icons/home.svg',
+              height: 28,
+              width: 28,
+              color: Colors.white,
               // color: Colors.white,
               // Optional: show a placeholder while loading.
               // placeholderBuilder: (BuildContext context) =>
               //     const CircularProgressIndicator(),
             ),
 
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.checklist_rounded, color: Colors.white),
+            SvgPicture.asset(
+              'assets/icons/clipboard_check.svg',
+              color: Colors.white,
+              height: 28,
+              width: 28,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.add_rounded, color: Colors.white),
+
+            SvgPicture.asset(
+              'assets/icons/plus.svg',
+              color: Colors.white,
+              height: 28,
+              width: 28,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.menu_book_rounded, color: Colors.white),
+
+            SvgPicture.asset(
+              'assets/icons/book.svg',
+              color: Colors.white,
+              height: 28,
+              width: 28,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
+            SvgPicture.asset(
+              'assets/icons/Customer.svg',
+              color: Colors.white,
+              height: 42,
+              width: 42,
             ),
           ],
         ),
       ),
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         title: Text('Feed Spaces'),
+        forceMaterialTransparency: true,
       ),
       body: SafeArea(
+        top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -83,12 +97,18 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                             style: ButtonStyle(
                                 backgroundColor: WidgetStatePropertyAll(
                                     feedSpacesBloc.selectedTabIndex == 0
-                                        ? Colors.orange
-                                        : Colors.grey.shade200)),
+                                        ? AppColors.black
+                                        : AppColors.grey)),
                             onPressed: () {
                               feedSpacesBloc.add(TabChangeEvent(index: 0));
                             },
-                            child: Text('Feed')),
+                            child: Text(
+                              'Feed',
+                              style: TextStyle(
+                                  color: feedSpacesBloc.selectedTabIndex == 0
+                                      ? Colors.white
+                                      : AppColors.black),
+                            )),
                       ),
                       SizedBox(
                         width: 10,
@@ -98,12 +118,16 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                           style: ButtonStyle(
                               backgroundColor: WidgetStatePropertyAll(
                                   feedSpacesBloc.selectedTabIndex == 1
-                                      ? Colors.orange
-                                      : Colors.grey.shade200)),
+                                      ? AppColors.black
+                                      : AppColors.grey)),
                           onPressed: () {
                             feedSpacesBloc.add(TabChangeEvent(index: 1));
                           },
-                          child: Text('Spaces'),
+                          child: Text('Spaces',
+                              style: TextStyle(
+                                  color: feedSpacesBloc.selectedTabIndex == 1
+                                      ? Colors.white
+                                      : AppColors.black)),
                         ),
                       ),
                     ],
@@ -113,7 +137,6 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
               SizedBox(
                 height: 10,
               ),
-
               BlocBuilder<FeedSpacesBloc, FeedSpacesState>(
                 bloc: feedSpacesBloc,
                 builder: (context, state) {
@@ -123,46 +146,6 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                           : SpacesScreen());
                 },
               ),
-              // Fixed Legend Panel
-              // Positioned(
-              //   right: 50,
-              //   bottom: 100,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //         color: Colors.black87,
-              //         borderRadius: BorderRadius.circular(40)),
-              //     child: Row(
-              //       mainAxisSize: MainAxisSize.min,
-              //       children: [
-              //         IconButton(
-              //           onPressed: () {},
-              //           icon: Icon(Icons.home, color: Colors.white),
-              //         ),
-              //         IconButton(
-              //           onPressed: () {},
-              //           icon: Icon(Icons.checklist_rounded,
-              //               color: Colors.white),
-              //         ),
-              //         IconButton(
-              //           onPressed: () {},
-              //           icon: Icon(Icons.add, color: Colors.white),
-              //         ),
-              //         IconButton(
-              //           onPressed: () {},
-              //           icon: Icon(Icons.menu_book_rounded,
-              //               color: Colors.white),
-              //         ),
-              //         IconButton(
-              //           onPressed: () {},
-              //           icon: Icon(
-              //             Icons.person,
-              //             color: Colors.white,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
