@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
+import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_post_screen.dart';
 import 'package:feed_spaces/features/models/spaces_model.dart';
 import 'package:feed_spaces/features/source/api_service.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,10 @@ class _SpacesScreenState extends State<SpacesScreen> {
                              return GestureDetector(
                                onTap: () {
                                  print("Tapped");
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => const SpacesPostScreen()),
+                                 );
                                },
                                child: ListTile(
                                    leading: Icon(
@@ -84,57 +89,13 @@ class _SpacesScreenState extends State<SpacesScreen> {
                            },
 
                          ),
-                         // GestureDetector(
-                         //   onTap: (){
-                         //     print("Tapped");
-                         //   },
-                         //   child: ListTile(
-                         //       leading: Icon(Icons.circle, color: AppColors.blue,
-                         //         size: 18.0,),
-                         //       title: Text("Rezolut Dummy 1" , style: TextStyle(
-                         //         color: Colors.black,
-                         //         fontSize: 16.0,
-                         //       ),)
-                         //   ),
-                         // ),
-                         // GestureDetector(
-                         //   onTap: (){
-                         //     print("Tapped");
-                         //   },
-                         //   child: ListTile(
-                         //       leading: Icon(Icons.circle, color: AppColors.blue,
-                         //         size: 18.0,),
-                         //       title: Text("Rezolut Dummy 1" , style: TextStyle(
-                         //         color: Colors.black,
-                         //         fontSize: 16.0,
-                         //       ),)
-                         //   ),
-                         // ),
-                         // // SizedBox(height: 22.0,),
-                         // Text("Tinker Village",
-                         //   style: TextStyle(fontSize: 16.0,
-                         //       fontWeight: FontWeight.bold),),
-                         //
-                         // GestureDetector(
-                         //   onTap: (){
-                         //     print("Tapped5");
-                         //   },
-                         //   child: ListTile(
-                         //       leading: Icon(Icons.circle, color: AppColors.blue,
-                         //         size: 18.0,),
-                         //       title: Text("Tinker Village" , style: TextStyle(
-                         //         color: Colors.black,
-                         //         fontSize: 16.0,
-                         //       ),)
-                         //   ),
-                         // ),
                        ],
                      );
                    }
 
                );
              }
-            return Text("No data found");
+            return Text("");
           },
         ),
       ),
