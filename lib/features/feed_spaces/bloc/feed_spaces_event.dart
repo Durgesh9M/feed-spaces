@@ -9,7 +9,13 @@ class TabChangeEvent extends FeedSpacesEvent {
   final int index;
 
   TabChangeEvent({required this.index});
-
 }
 
-class FeedsFetchedEvent extends FeedSpacesEvent {} 
+class FeedsFetchedEvent extends FeedSpacesEvent {}
+
+class LikeButtonOnClickedEvent extends FeedSpacesEvent {
+  final int spaceId;
+  final int postId;
+
+  LikeButtonOnClickedEvent({required this.spaceId, required this.postId});
+}

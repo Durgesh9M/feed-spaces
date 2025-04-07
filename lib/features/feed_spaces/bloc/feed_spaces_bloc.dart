@@ -16,6 +16,7 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
   FeedSpacesBloc() : super(FeedSpacesInitial()) {
     on<TabChangeEvent>(tabChangeEvent);
     on<FeedsFetchedEvent>(feedsFetchedEvent);
+    on<LikeButtonOnClickedEvent>(likeButtonOnClickedEvent);
   }
 
   Future<void> tabChangeEvent(
@@ -30,6 +31,7 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
 
   FutureOr<void> feedsFetchedEvent(
       FeedsFetchedEvent event, Emitter<FeedSpacesState> emit) async {
+    emit(FetchAllFeedsLoadingState());
     try {
       final allFeeds = await FeedService.getFeeds();
 
@@ -49,5 +51,18 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
     // var allFeeds = await FeedService.getFeeds();
     // record = allFeeds!.data.records;
     // emit(FetchAllFeedsSuccessState(feedsModel: allFeeds));
+  }
+
+  Future<void> likeButtonOnClickedEvent(
+      LikeButtonOnClickedEvent event, Emitter<FeedSpacesState> emit) async {
+    try {
+      bool isLiked = await FeedService.feedLiked(
+          {"space_id": event.spaceId}, event.postId);
+      if (isLiked) {
+        emit(PostLikedSuccessState());
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
   }
 }

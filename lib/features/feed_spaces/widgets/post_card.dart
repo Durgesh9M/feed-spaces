@@ -14,6 +14,7 @@ class PostCard extends StatefulWidget {
   final DateTime? date;
   final double? height;
   final double? width;
+  final VoidCallback onTap;
 
   const PostCard({
     super.key,
@@ -27,7 +28,7 @@ class PostCard extends StatefulWidget {
     this.commentCount,
     this.date,
     this.height,
-    this.width,
+    this.width, required this.onTap,
   });
 
   @override
@@ -98,39 +99,81 @@ class _PostCardState extends State<PostCard> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   LayoutBuilder(
                     builder: (context, constraints) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: constraints.maxWidth,
-                          maxHeight: _isExpanded ? double.infinity : 150,
-                        ),
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          child: Html(
-                            data: widget.content!,
-                            style: {
-                              // Removed width property to allow the HTML to adapt to constraints.
-                              "body": Style(
-                                // width: Width(32.w), // Removed to fix infinite width error.
-                                height: Height(150),
-                                margin: Margins.zero,
-                                padding: HtmlPaddings.zero,
-                                fontSize: FontSize(14.0),
-                              ),
-                              "p": Style(
-                                margin: Margins.zero,
-                                padding: HtmlPaddings.zero,
-                                lineHeight: LineHeight(1.4),
-                              ),
-                            },
-                            shrinkWrap: true,
+                      final bool needsExpansion =
+                          _needsExpandButton(widget.content!);
+
+                      if (!needsExpansion) {
+                        return Html(
+                          data: widget.content!,
+                          style: {
+                            "body": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              fontSize: FontSize(14.0),
+                            ),
+                            "p": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              lineHeight: LineHeight(1.4),
+                            ),
+                          },
+                          shrinkWrap: true,
+                        );
+                      }
+                      // If content is long and _isExpanded is true, show full content.
+                      if (_isExpanded) {
+                        return Html(
+                          data: widget.content!,
+                          style: {
+                            "body": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              fontSize: FontSize(14.0),
+                            ),
+                            "p": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              lineHeight: LineHeight(1.4),
+                            ),
+                          },
+                          shrinkWrap: true,
+                        );
+                      } else {
+                        // When collapsed, constrain the content to a fixed height.
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: constraints.maxWidth,
+                            maxHeight: 150,
                           ),
-                        ),
-                      );
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Html(
+                              data: widget.content!,
+                              style: {
+                                "body": Style(
+                                  height: Height(150),
+                                  margin: Margins.zero,
+                                  padding: HtmlPaddings.zero,
+                                  fontSize: FontSize(14.0),
+                                ),
+                                "p": Style(
+                                  margin: Margins.zero,
+                                  padding: HtmlPaddings.zero,
+                                  lineHeight: LineHeight(1.4),
+                                ),
+                              },
+                              shrinkWrap: true,
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
+                  // Show the expand/collapse button only if the content is long.
                   if (_needsExpandButton(widget.content!))
                     GestureDetector(
                       onTap: () => setState(() => _isExpanded = !_isExpanded),
@@ -163,7 +206,7 @@ class _PostCardState extends State<PostCard> {
                     _buildInteractionButton(
                       icon: Icons.favorite_border,
                       count: widget.likesCount ?? 0,
-                      onPressed: () {},
+                      onPressed: widget.onTap,
                     ),
                     const SizedBox(width: 16),
                     _buildInteractionButton(
@@ -190,7 +233,7 @@ class _PostCardState extends State<PostCard> {
 
   bool _needsExpandButton(String htmlContent) {
     // Simple check for content length; adjust threshold as needed.
-    return htmlContent.length > 300;
+    return htmlContent.length > 250;
   }
 
   Widget _buildInteractionButton({

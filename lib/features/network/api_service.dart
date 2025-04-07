@@ -34,4 +34,18 @@ class ApiService {
       return null;
     }
   }
+
+  Future<dynamic> postData(
+      {required String url, required Map<String, dynamic> params}) async {
+    try {
+      print("POST URL is : $url and PARAMS ARE : $params");
+      Response response = await _dio.post(url, data: params, options: options);
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+    } catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
 }

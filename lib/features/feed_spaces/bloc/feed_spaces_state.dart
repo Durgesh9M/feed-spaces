@@ -20,3 +20,5 @@ class TabSelectedIndex extends FeedSpacesState {
 
   TabSelectedIndex(this.currentIndex);
 }
+
+class PostLikedSuccessState extends FeedSpacesState {}

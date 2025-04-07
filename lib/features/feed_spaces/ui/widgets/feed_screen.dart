@@ -29,10 +29,11 @@ class _FeedScreenState extends State<FeedScreen> {
             return Center(child: CircularProgressIndicator());
           }
           if (state is FetchAllFeedsSuccessState) {
-            return ListView.builder(
+            return ListView.separated(
               shrinkWrap: true,
-              // physics: NeverScrollableScrollPhysics(),
               itemCount: feedSpacesBloc.record.length,
+              separatorBuilder: (context, index) =>
+                  const SizedBox(height: 16.0),
               itemBuilder: (context, index) {
                 return PostCard(
                   imageUrl: feedSpacesBloc.record[index].author.avatarUrl,
@@ -43,11 +44,16 @@ class _FeedScreenState extends State<FeedScreen> {
                   likesCount: feedSpacesBloc.record[index].userLikesCount,
                   commentCount: feedSpacesBloc.record[index].commentCount,
                   date: feedSpacesBloc.record[index].createdAt,
+                  onTap: () {
+                    feedSpacesBloc.add(LikeButtonOnClickedEvent(
+                        spaceId: feedSpacesBloc.record[index].space.id,
+                        postId: feedSpacesBloc.record[index].id));
+                  },
                 );
               },
             );
           }
-          return Container();
+          return SizedBox();
         },
       ),
     );

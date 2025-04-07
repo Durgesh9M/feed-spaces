@@ -22,6 +22,7 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 15.0),
         width: 250,
         height: 50,
         decoration: BoxDecoration(
@@ -69,8 +70,8 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
             SvgPicture.asset(
               'assets/icons/Customer.svg',
               color: Colors.white,
-              height: 42,
-              width: 42,
+              height: 44,
+              width: 44,
             ),
           ],
         ),
@@ -145,6 +146,9 @@ class _FeedSpacesScreenState extends State<FeedSpacesScreen> {
                           ? FeedScreen()
                           : SpacesScreen());
                 },
+              ),
+              SizedBox(
+                height: 45,
               ),
             ],
           ),
