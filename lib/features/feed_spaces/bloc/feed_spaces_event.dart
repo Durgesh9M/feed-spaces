@@ -19,3 +19,10 @@ class LikeButtonOnClickedEvent extends FeedSpacesEvent {
 
   LikeButtonOnClickedEvent({required this.spaceId, required this.postId});
 }
+
+class DisLikeButtonOnClickedEvent extends FeedSpacesEvent {
+  final int postId;
+
+  DisLikeButtonOnClickedEvent({required this.postId});
+
+}

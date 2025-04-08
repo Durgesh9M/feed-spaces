@@ -104,7 +104,7 @@ class Record {
     final int unresolvedFlaggedReportsCount;
     final DateTime updatedAt;
     final String url;
-    final int userLikesCount;
+    int userLikesCount;
 
     Record({
         required this.action,

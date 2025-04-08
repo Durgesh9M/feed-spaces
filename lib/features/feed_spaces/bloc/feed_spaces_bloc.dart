@@ -17,6 +17,7 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
     on<TabChangeEvent>(tabChangeEvent);
     on<FeedsFetchedEvent>(feedsFetchedEvent);
     on<LikeButtonOnClickedEvent>(likeButtonOnClickedEvent);
+    on<DisLikeButtonOnClickedEvent>(disLikeButtonOnClickedEvent);
   }
 
   Future<void> tabChangeEvent(
@@ -40,7 +41,7 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
         return;
       }
       record = allFeeds.data.records;
-      emit(FetchAllFeedsSuccessState(feedsModel: allFeeds));
+      emit(FetchAllFeedsSuccessState());
       print("Length: ${record.length}");
     } catch (e) {
       log(e.toString());
@@ -59,9 +60,35 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
       bool isLiked = await FeedService.feedLiked(
           {"space_id": event.spaceId}, event.postId);
       if (isLiked) {
+        // Find the post index in your local records list
+        final int index = record.indexWhere((post) => post.id == event.postId);
+        if (index != -1) {
+          // Update the like count locally
+          record[index].userLikesCount = (record[index].userLikesCount) + 1;
+        }
         emit(PostLikedSuccessState());
+        emit(FetchAllFeedsSuccessState());
       }
     } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> disLikeButtonOnClickedEvent(
+      DisLikeButtonOnClickedEvent event, Emitter<FeedSpacesState> emit) async {
+    try {
+      bool isDisLiked = await FeedService.feedDisliked(event.postId);
+      if (isDisLiked) {
+        // Find the post index in your local records list
+        final int index = record.indexWhere((post) => post.id == event.postId);
+        if (index != -1) {
+          // Update the dislike count locally
+          record[index].userLikesCount = (record[index].userLikesCount) - 1;
+        }
+        // emit(PostLikedSuccessState());
+        emit(FetchAllFeedsSuccessState());
+      }
+    } catch (e) {
       print(e.toString());
     }
   }

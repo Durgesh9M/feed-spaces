@@ -36,10 +36,24 @@ class ApiService {
   }
 
   Future<dynamic> postData(
-      {required String url, required Map<String, dynamic> params}) async {
+      {required String url, Map<String, dynamic>? params}) async {
     try {
       print("POST URL is : $url and PARAMS ARE : $params");
       Response response = await _dio.post(url, data: params, options: options);
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+    } catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
+
+
+  Future<dynamic> deleteData({required String url}) async {
+try {
+      print("DELETE URL is : $url");
+      Response response = await _dio.delete(url, options: options);
       if (response.statusCode == 200) {
         return response.data;
       }

@@ -10,6 +10,7 @@ class PostCard extends StatefulWidget {
   final String? title;
   final String? content;
   final int? likesCount;
+  final Icon? iconLike;
   final int? commentCount;
   final DateTime? date;
   final double? height;
@@ -28,7 +29,9 @@ class PostCard extends StatefulWidget {
     this.commentCount,
     this.date,
     this.height,
-    this.width, required this.onTap,
+    this.width,
+    required this.onTap,
+    this.iconLike,
   });
 
   @override
@@ -180,7 +183,7 @@ class _PostCardState extends State<PostCard> {
                       child: Text(
                         _isExpanded ? 'Show less' : 'Show more',
                         style: const TextStyle(
-                          color: Colors.blue,
+                          color: Colors.black54,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -204,13 +207,13 @@ class _PostCardState extends State<PostCard> {
                 Row(
                   children: [
                     _buildInteractionButton(
-                      icon: Icons.favorite_border,
+                      icon: widget.iconLike ?? Icon(Icons.favorite_border),
                       count: widget.likesCount ?? 0,
                       onPressed: widget.onTap,
                     ),
                     const SizedBox(width: 16),
                     _buildInteractionButton(
-                      icon: Icons.comment_outlined,
+                      icon: Icon(Icons.comment_outlined),
                       count: widget.commentCount ?? 0,
                       onPressed: () {},
                     ),
@@ -237,7 +240,7 @@ class _PostCardState extends State<PostCard> {
   }
 
   Widget _buildInteractionButton({
-    required IconData icon,
+    required Icon icon,
     required int count,
     required VoidCallback onPressed,
   }) {
@@ -248,7 +251,7 @@ class _PostCardState extends State<PostCard> {
         padding: const EdgeInsets.all(4.0),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: Colors.grey[600]),
+            icon,
             const SizedBox(width: 4),
             Text(
               count.toString(),

@@ -41,13 +41,27 @@ class _FeedScreenState extends State<FeedScreen> {
                   title: feedSpacesBloc.record[index].name,
                   subtitle: feedSpacesBloc.record[index].space.name,
                   content: feedSpacesBloc.record[index].tiptapBody.body.data,
+                  iconLike: feedSpacesBloc.record[index].isLiked
+                      ? Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                          size: 20,
+                        )
+                      : Icon(Icons.favorite_border,
+                          color: Colors.grey.shade600, size: 20),
                   likesCount: feedSpacesBloc.record[index].userLikesCount,
                   commentCount: feedSpacesBloc.record[index].commentCount,
                   date: feedSpacesBloc.record[index].createdAt,
                   onTap: () {
-                    feedSpacesBloc.add(LikeButtonOnClickedEvent(
-                        spaceId: feedSpacesBloc.record[index].space.id,
-                        postId: feedSpacesBloc.record[index].id));
+                    if (!feedSpacesBloc.record[index].isLiked) {
+                      feedSpacesBloc.add(LikeButtonOnClickedEvent(
+                          spaceId: feedSpacesBloc.record[index].space.id,
+                          postId: feedSpacesBloc.record[index].id));
+                    }
+                    if (feedSpacesBloc.record[index].isLiked) {
+                      feedSpacesBloc.add(DisLikeButtonOnClickedEvent(
+                          postId: feedSpacesBloc.record[index].id));
+                    }
                   },
                 );
               },

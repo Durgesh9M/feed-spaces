@@ -8,9 +8,9 @@ final class FeedSpacesInitial extends FeedSpacesState {}
 class FetchAllFeedsLoadingState extends FeedSpacesState {}
 
 class FetchAllFeedsSuccessState extends FeedSpacesState {
-  final AllFeedsModel? feedsModel;
+  // final AllFeedsModel? feedsModel;
 
-  FetchAllFeedsSuccessState({required this.feedsModel});
+  FetchAllFeedsSuccessState();
 }
 
 class FetchAllFeedsErrorState extends FeedSpacesState {}
