@@ -1,4 +1,5 @@
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
+import 'package:feed_spaces/features/feed_spaces/ui/feed_detail_screen.dart';
 import 'package:feed_spaces/features/feed_spaces/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,34 +36,70 @@ class _FeedScreenState extends State<FeedScreen> {
               separatorBuilder: (context, index) =>
                   const SizedBox(height: 16.0),
               itemBuilder: (context, index) {
-                return PostCard(
-                  imageUrl: feedSpacesBloc.record[index].author.avatarUrl,
-                  author: feedSpacesBloc.record[index].author.name,
-                  title: feedSpacesBloc.record[index].name,
-                  subtitle: feedSpacesBloc.record[index].space.name,
-                  content: feedSpacesBloc.record[index].tiptapBody.body.data,
-                  iconLike: feedSpacesBloc.record[index].isLiked
-                      ? Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                          size: 20,
-                        )
-                      : Icon(Icons.favorite_border,
-                          color: Colors.grey.shade600, size: 20),
-                  likesCount: feedSpacesBloc.record[index].userLikesCount,
-                  commentCount: feedSpacesBloc.record[index].commentCount,
-                  date: feedSpacesBloc.record[index].createdAt,
+                return InkWell(
                   onTap: () {
-                    if (!feedSpacesBloc.record[index].isLiked) {
-                      feedSpacesBloc.add(LikeButtonOnClickedEvent(
-                          spaceId: feedSpacesBloc.record[index].space.id,
-                          postId: feedSpacesBloc.record[index].id));
-                    }
-                    if (feedSpacesBloc.record[index].isLiked) {
-                      feedSpacesBloc.add(DisLikeButtonOnClickedEvent(
-                          postId: feedSpacesBloc.record[index].id));
-                    }
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FeedDetailScreen(imageUrl: feedSpacesBloc.record[index].author.avatarUrl,
+                        postId: feedSpacesBloc.record[index].id,
+                    author: feedSpacesBloc.record[index].author.name,
+                    title: feedSpacesBloc.record[index].name,
+                    subtitle: feedSpacesBloc.record[index].space.name,
+                    content: feedSpacesBloc.record[index].tiptapBody.body.data,
+                    iconLike: feedSpacesBloc.record[index].isLiked
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 20,
+                          )
+                        : Icon(Icons.favorite_border,
+                            color: Colors.grey.shade600, size: 20),
+                    likesCount: feedSpacesBloc.record[index].userLikesCount,
+                    commentCount: feedSpacesBloc.record[index].commentCount,
+                    date: feedSpacesBloc.record[index].createdAt,
+                    onTap: () {
+                      if (!feedSpacesBloc.record[index].isLiked) {
+                        feedSpacesBloc.add(LikeButtonOnClickedEvent(
+                            spaceId: feedSpacesBloc.record[index].space.id,
+                            postId: feedSpacesBloc.record[index].id));
+                      }
+                      if (feedSpacesBloc.record[index].isLiked) {
+                        feedSpacesBloc.add(DisLikeButtonOnClickedEvent(
+                            postId: feedSpacesBloc.record[index].id));
+                      }
+                    },);
+                      },
+                    ));
                   },
+                  child: PostCard(
+                    imageUrl: feedSpacesBloc.record[index].author.avatarUrl,
+                    author: feedSpacesBloc.record[index].author.name,
+                    title: feedSpacesBloc.record[index].name,
+                    subtitle: feedSpacesBloc.record[index].space.name,
+                    content: feedSpacesBloc.record[index].tiptapBody.body.data,
+                    iconLike: feedSpacesBloc.record[index].isLiked
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 20,
+                          )
+                        : Icon(Icons.favorite_border,
+                            color: Colors.grey.shade600, size: 20),
+                    likesCount: feedSpacesBloc.record[index].userLikesCount,
+                    commentCount: feedSpacesBloc.record[index].commentCount,
+                    date: feedSpacesBloc.record[index].createdAt,
+                    onTap: () {
+                      if (!feedSpacesBloc.record[index].isLiked) {
+                        feedSpacesBloc.add(LikeButtonOnClickedEvent(
+                            spaceId: feedSpacesBloc.record[index].space.id,
+                            postId: feedSpacesBloc.record[index].id));
+                      }
+                      if (feedSpacesBloc.record[index].isLiked) {
+                        feedSpacesBloc.add(DisLikeButtonOnClickedEvent(
+                            postId: feedSpacesBloc.record[index].id));
+                      }
+                    },
+                  ),
                 );
               },
             );

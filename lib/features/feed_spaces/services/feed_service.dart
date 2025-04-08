@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'package:feed_spaces/features/models/all_feeds_model.dart';
+import 'package:feed_spaces/features/models/comment_model.dart';
 import 'package:feed_spaces/features/network/api_endpoint.dart';
 import 'package:feed_spaces/features/network/api_service.dart';
 
@@ -35,8 +36,8 @@ class FeedService {
     return false;
   }
 
-static Future<bool> feedDisliked(int postId) async {
-  try {
+  static Future<bool> feedDisliked(int postId) async {
+    try {
       final Map<String, dynamic>? responseData = await ApiService()
           .deleteData(url: "${ApiEndpoint.disLikeFeed}/$postId");
       print("Response Data ==>$responseData");
@@ -50,6 +51,32 @@ static Future<bool> feedDisliked(int postId) async {
       return false;
     }
     return false;
-}
+  }
+
+  static Future<CommentModel?> getFeedComments(int postId) async {
+    try {
+      final response = await ApiService().getData(url: ApiEndpoint.getCommentsOfFeed+"?postId=$postId");
+
+      if (response == null) return null;
+
+      return CommentModel.fromJson(response);
+    } catch (e) {
+      print('Error fetching comments: $e');
+      return null;
+    }
+  }
+
+  static Future<CommentModel?> getCommentReplies(int commentId) async {
+    try {
+      final response = await ApiService().getData(url: ApiEndpoint.getCommentRepliesOfFeed+"?commentId=$commentId");
+
+      if (response == null) return null;
+
+      return CommentModel.fromJson(response);
+    } catch (e) {
+      print('Error fetching comments: $e');
+      return null;
+    }
+  }
 
 }

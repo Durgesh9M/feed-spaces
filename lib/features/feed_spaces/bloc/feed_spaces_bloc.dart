@@ -6,6 +6,8 @@ import 'package:feed_spaces/features/feed_spaces/services/feed_service.dart';
 import 'package:feed_spaces/features/models/all_feeds_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/comment_model.dart' as comment;
+
 part 'feed_spaces_event.dart';
 part 'feed_spaces_state.dart';
 
@@ -18,6 +20,8 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
     on<FeedsFetchedEvent>(feedsFetchedEvent);
     on<LikeButtonOnClickedEvent>(likeButtonOnClickedEvent);
     on<DisLikeButtonOnClickedEvent>(disLikeButtonOnClickedEvent);
+    on<FeedsCommentFetchedEvent>(feedsCommentFetchedEvent);
+    on<FeedsCommentRepliesFetchedEvent>(feedsCommentRepliesFetchedEvent);
   }
 
   Future<void> tabChangeEvent(
@@ -90,6 +94,44 @@ class FeedSpacesBloc extends Bloc<FeedSpacesEvent, FeedSpacesState> {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  FutureOr<void> feedsCommentFetchedEvent(
+      FeedsCommentFetchedEvent event, Emitter<FeedSpacesState> emit) async {
+    emit(FetchAllFeedsLoadingState());
+    try {
+      final allFeedsComment = await FeedService.getFeedComments(event.postId);
+
+      if (allFeedsComment == null || allFeedsComment.data.records.isEmpty) {
+        emit(FetchAllFeedsLoadingState());
+        return;
+      }
+
+      emit(FetchAllCommentsOfFeedState(commentModel: allFeedsComment));
+      print("Comment Length: ${allFeedsComment.data.records.length}");
+    } catch (e) {
+      log(e.toString());
+      emit(FetchAllFeedsLoadingState());
+    }
+  }
+
+FutureOr<void> feedsCommentRepliesFetchedEvent(
+      FeedsCommentRepliesFetchedEvent event, Emitter<FeedSpacesState> emit) async {
+    emit(FetchAllFeedsLoadingState());
+    try {
+      final allFeedsCommentReplies = await FeedService.getCommentReplies(event.commentId);
+
+      if (allFeedsCommentReplies == null || allFeedsCommentReplies.data.records.isEmpty) {
+        emit(FetchAllFeedsLoadingState());
+        return;
+      }
+
+      emit(FetchAllCommentsOfFeedState(commentModel: allFeedsCommentReplies));
+      print("Comment Replies Length: ${allFeedsCommentReplies.data.records.length}");
+    } catch (e) {
+      log(e.toString());
+      emit(FetchAllFeedsLoadingState());
     }
   }
 }

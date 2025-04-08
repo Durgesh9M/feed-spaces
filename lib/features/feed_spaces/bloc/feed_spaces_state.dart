@@ -22,3 +22,9 @@ class TabSelectedIndex extends FeedSpacesState {
 }
 
 class PostLikedSuccessState extends FeedSpacesState {}
+
+class FetchAllCommentsOfFeedState extends FeedSpacesState {
+  final comment.CommentModel? commentModel;
+
+  FetchAllCommentsOfFeedState({required this.commentModel});
+}

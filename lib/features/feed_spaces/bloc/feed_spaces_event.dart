@@ -24,5 +24,16 @@ class DisLikeButtonOnClickedEvent extends FeedSpacesEvent {
   final int postId;
 
   DisLikeButtonOnClickedEvent({required this.postId});
+}
 
+class FeedsCommentFetchedEvent extends FeedSpacesEvent {
+  final int postId;
+
+  FeedsCommentFetchedEvent({required this.postId});
+}
+
+class FeedsCommentRepliesFetchedEvent extends FeedSpacesEvent {
+  final int commentId;
+
+  FeedsCommentRepliesFetchedEvent({required this.commentId});
 }
