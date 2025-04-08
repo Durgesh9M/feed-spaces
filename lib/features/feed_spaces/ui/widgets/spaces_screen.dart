@@ -5,7 +5,6 @@ import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:feed_spaces/features/feed_spaces/bloc/feed_spaces_bloc.dart';
 import 'package:feed_spaces/features/feed_spaces/ui/widgets/spaces_post_screen.dart';
 import 'package:feed_spaces/features/models/spaces_model.dart';
-import 'package:feed_spaces/features/source/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,10 +69,11 @@ class _SpacesScreenState extends State<SpacesScreen> {
                            itemBuilder: (context, ind) {
                              return GestureDetector(
                                onTap: () {
+                                 final selectedSlug = state.spacesList!.data?[index].spaceGroupData?[ind].slug;
                                  print("Tapped");
                                  Navigator.push(
                                    context,
-                                   MaterialPageRoute(builder: (context) => const SpacesPostScreen()),
+                                   MaterialPageRoute(builder: (context) =>  SpacesPostScreen(slug: selectedSlug)),
                                  );
                                },
                                child: ListTile(

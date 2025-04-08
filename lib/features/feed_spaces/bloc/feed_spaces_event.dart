@@ -3,6 +3,8 @@ part of 'feed_spaces_bloc.dart';
 @immutable
 sealed class FeedSpacesEvent {}
 
+class AllFeedsInitialFetchEvent extends FeedSpacesEvent {}
+
 class TabChangeEvent extends FeedSpacesEvent {
   final int index;
 
@@ -10,6 +12,13 @@ class TabChangeEvent extends FeedSpacesEvent {
 
 }
 
+class FeedsFetchedEvent extends FeedSpacesEvent {}
+
 class FetchSpaceGroupNameEvent extends FeedSpacesEvent {
 
+}
+
+class FetchSpacesPostsEvent extends FeedSpacesEvent{
+  final String slug;
+  FetchSpacesPostsEvent(this.slug);
 }

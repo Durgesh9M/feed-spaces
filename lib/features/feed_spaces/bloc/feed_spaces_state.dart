@@ -5,6 +5,19 @@ sealed class FeedSpacesState {}
 
 final class FeedSpacesInitial extends FeedSpacesState {}
 
+class FetchAllFeedsLoadingState extends FeedSpacesState {}
+
+class FetchAllFeedsSuccessState extends FeedSpacesState {
+  final AllFeedsModel? feedsModel;
+
+  FetchAllFeedsSuccessState({required this.feedsModel});
+}
+
+class FetchAllFeedsErrorState extends FeedSpacesState {
+  final String message;
+  FetchAllFeedsErrorState(this.message);
+}
+
 class TabSelectedIndex extends FeedSpacesState {
   final int currentIndex;
 

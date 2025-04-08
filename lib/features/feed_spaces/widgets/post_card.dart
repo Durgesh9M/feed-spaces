@@ -1,179 +1,303 @@
-import 'package:expandable_text/expandable_text.dart';
 import 'package:feed_spaces/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+// import 'package:flutter_html/flutter_html.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
+  final String? imageUrl;
+  final double radius;
   final String? author;
-  final String? title;
-  final TextStyle? titleStyle;
   final String? subtitle;
-  final TextStyle? subTitleStyle;
+  final String? title;
   final String? content;
-  final TextStyle? contentStyle;
-  final ImageProvider? imageUrl;
-  final DateTime? date;
-  final Widget? Icon;
-  final Widget? Icon2;
-  final Widget? child;
-  final double? height;
-  final double? width;
-  final double? radius;
   final int? likesCount;
   final int? commentCount;
+  final DateTime? date;
+  final double? height;
+  final double? width;
   final String? role;
   final GestureTapCallback? onTap;
 
   const PostCard({
     super.key,
-    this.title,
-    this.subtitle,
-    this.content,
     this.imageUrl,
-    this.date,
-    this.Icon,
-    this.child,
-    this.height,
-    this.width,
-    this.radius,
+    this.radius = 20,
+    this.author,
+    this.subtitle,
+    this.title,
+    this.content,
     this.likesCount,
     this.commentCount,
-    this.titleStyle,
-    this.subTitleStyle,
-    this.contentStyle,
-    this.author,
-    this.Icon2,
+    this.date,
+    this.height,
+    this.width,
     this.role,
     this.onTap,
   });
 
   @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool _isExpanded = false;
+
+
+  String getTimeAgo(DateTime date) {
+    final Duration diff = DateTime.now().difference(date);
+    if (diff.inSeconds < 60) {
+      return '${diff.inSeconds} seconds ago';
+    } else if (diff.inMinutes < 60) {
+      return '${diff.inMinutes} minutes ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} hours ago';
+    } else {
+      return '${diff.inDays} days ago';
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        splashColor: Colors.transparent,
-        onTap: onTap,
-        child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.lightGrey,
-              borderRadius: BorderRadius.circular(20.0),
-              // border: Border.all(color: Colors.black)
-            ),
-            // padding: EdgeInsets.all(16.0),
-            height: height,
-            width: width,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: imageUrl,
-                        radius: radius,
-                      ),
-                      SizedBox(width: 3.0),
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            author!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14.0),
-                          ),
-                          Text(
-                            subtitle!,
-                            style: TextStyle(fontSize: 12.0, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 4.0,
-                      ),
-                      if (role != null)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            role!,
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                    ],
+    return InkWell(
+      splashColor: Colors.transparent,
+      onTap: widget.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.lightGrey,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        height: widget.height,
+        width: widget.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 8.0, top: 8.0),
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(widget.imageUrl ?? ''),
+                    radius: widget.radius,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      title ?? "",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                  ),
-                ),
-                if (content != null)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ExpandableText(
-                      content!,
-                      style: TextStyle(fontSize: 14.0),
-                      expandText: "\nShow more",
-                      // expandOnTextTap: true,
-                      collapseText: "\nShow less",
-                      maxLines: 5,
-                      linkColor: Colors.black,
-                      linkStyle: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                Divider(
-                  color: Colors.grey,
-                  thickness: 0.5,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  SizedBox(width: 6.0),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Icon,
+                          Text(
+                            widget.author ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14.0),
                           ),
                           SizedBox(
-                            width: 3,
+                            width: 6.0,
                           ),
-                          // IconButton!,
-                          Text(likesCount!.toString()),
-                          SizedBox(
-                            width: 12.0,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Icon2,
-                          ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text(commentCount!.toString()),
+                          if (widget.role != null && widget.role!.isNotEmpty)
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                widget.role ?? "role",
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                            ),
                         ],
                       ),
-                      Text(date.toString().substring(0, 10)),
+                      Text(
+                        widget.subtitle ?? "",
+                        style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                      ),
                     ],
                   ),
-                )
-              ],
-            )),
+                  // SizedBox(width: 6.0,),
+                ],
+              ),
+            ),
+            // ListTile(
+            //   leading: CircleAvatar(
+            //     backgroundImage: NetworkImage(widget.imageUrl ?? ''),
+            //     radius: widget.radius,
+            //   ),
+            //   title: Text(
+            //     widget.author ?? '',
+            //     style: const TextStyle(
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 16.0,
+            //     ),
+            //   ),
+            //   subtitle: widget.subtitle != null
+            //       ? Text(
+            //           widget.subtitle!,
+            //           style: const TextStyle(fontSize: 12.0),
+            //         )
+            //       : null,
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.title ?? "",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            if (widget.content != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: constraints.maxWidth,
+                            maxHeight: _isExpanded ? double.infinity : 150,
+                          ),
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child:
+                            HtmlWidget(
+                              widget.content!,
+                              onTapImage: (image) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => Container(
+                                    color: Colors.white,
+                                    height: 100.0,
+                                    child: Dialog(
+                                      elevation: 1.2,
+                                      // backgroundColor: Colors.black,
+                                      child: InteractiveViewer(
+                                        child: Image.network(image.sources.first.url),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              textStyle: const TextStyle(fontSize: 14.0),
+                              customStylesBuilder: (element) {
+                                switch (element.localName) {
+                                  case 'body':
+                                    return {
+                                      'height': '150px',
+                                      'margin': '0',
+                                      'padding': '0',
+                                    };
+                                  case 'p':
+                                    return {
+                                      'margin': '0',
+                                      'padding': '0',
+                                      'line-height': '1.4',
+                                    };
+                                }
+                                return null;
+                              },
+                              renderMode: RenderMode.column,
+                              // shrinkWrap: true,
+                            )
+
+                          ),
+                        );
+                      },
+                    ),
+                    if (_needsExpandButton(widget.content!))
+                      GestureDetector(
+                        onTap: () => setState(() => _isExpanded = !_isExpanded),
+                        child: Text(
+                          _isExpanded ? 'Show less' : 'Show more',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            const Divider(
+              color: Colors.grey,
+              thickness: 0.5,
+              height: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 12.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      _buildInteractionButton(
+                        icon: Icons.favorite_border,
+                        count: widget.likesCount ?? 0,
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 16),
+                      _buildInteractionButton(
+                        icon: Icons.comment_outlined,
+                        count: widget.commentCount ?? 0,
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.date != null ? getTimeAgo(widget.date!) : '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  bool _needsExpandButton(String htmlContent) {
+    // Simple check for content length; adjust threshold as needed.
+    return htmlContent.length > 300;
+  }
+
+  Widget _buildInteractionButton({
+    required IconData icon,
+    required int count,
+    required VoidCallback onPressed,
+  }) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: Colors.grey[600]),
+            const SizedBox(width: 4),
+            Text(
+              count.toString(),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
