@@ -49,7 +49,7 @@ class _SpacesPostScreenState extends State<SpacesPostScreen> {
               );
             }
             if (state is FetchAllFeedsSuccessState) {
-              final posts = state.feedsModel?.data?.records;
+              final posts = _feedSpacesBloc.record;
               log("response4: ${_feedSpacesBloc.record}");
               return ListView.separated(
                 separatorBuilder: (context, index) {
