@@ -183,7 +183,56 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                           ),
                           Text("Comments"),
                           SizedBox(
-                            height: 10.h,
+                            height: 20.h,
+                          ),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: state.commentModel!.data.records.length,
+                            itemBuilder: (context, index) {
+                              return ParentComment(
+                                avatarUrl: state.commentModel!.data
+                                    .records[index].author.avatarUrl,
+                                name: state.commentModel!.data.records[index]
+                                    .author.name,
+                                userRole: state.commentModel!.data
+                                    .records[index].author.roles[0],
+                                timeAgo: state.commentModel!.data.records[index]
+                                    .createdAt,
+                                content: state.commentModel!.data.records[index]
+                                    .tiptapBody.body.data,
+                                likesCount: state.commentModel!.data
+                                    .records[index].userLikesCount,
+                                replyCount: state.commentModel!.data
+                                    .records[index].repliesCount,
+                                replies: [
+                                  ReplyComment(
+                                    avatarUrl:
+                                        'https://images.unsplash.com/photo-1570158268183-d296b2892211?w=100',
+                                    name: 'Emily Rogers',
+                                    timeAgo: '10 mins ago',
+                                    content:
+                                        'I agree! AI is truly a game-changer! In healthcare alone, AI-driven diagnostics can save lives by detecting diseases early. I can’t wait to see how it evolves in the next decade.',
+                                    likesCount: 1,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          // Another sibling comment: David Kim
+                          ParentComment(
+                            avatarUrl:
+                                'https://images.unsplash.com/photo-1570158268183-d296b2892211?w=100',
+                            name: 'David Kim',
+                            userRole: 'Admin',
+                            timeAgo:
+                                state.commentModel!.data.records[0].createdAt,
+                            content:
+                                'The biggest challenge is AI ethics. There are lots of privacy concerns around medical data. Still excited for the future though!',
+                            likesCount: 8,
+                            replyCount: 0,
+                            replies: const [],
                           ),
                           ParentComment(
                             avatarUrl: state
@@ -192,7 +241,8 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                                 state.commentModel!.data.records[0].author.name,
                             userRole: state
                                 .commentModel!.data.records[0].author.roles[0],
-                            timeAgo: '1 hour ago',
+                            timeAgo:
+                                state.commentModel!.data.records[0].createdAt,
                             content: state.commentModel!.data.records[0]
                                 .tiptapBody.body.data,
                             likesCount: state
@@ -210,20 +260,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                                 likesCount: 1,
                               ),
                             ],
-                          ),
-                          const SizedBox(height: 16),
-                          // Another sibling comment: David Kim
-                          ParentComment(
-                            avatarUrl:
-                                'https://images.unsplash.com/photo-1570158268183-d296b2892211?w=100',
-                            name: 'David Kim',
-                            userRole: 'Admin',
-                            timeAgo: '2 hours ago',
-                            content:
-                                'The biggest challenge is AI ethics. There are lots of privacy concerns around medical data. Still excited for the future though!',
-                            likesCount: 8,
-                            replyCount: 0,
-                            replies: const [],
                           ),
                         ],
                       ),
@@ -288,7 +324,7 @@ class ParentComment extends StatelessWidget {
   final String avatarUrl;
   final String name;
   final String userRole;
-  final String timeAgo;
+  final DateTime timeAgo;
   final String content;
   final int likesCount;
   final int replyCount;
@@ -358,7 +394,7 @@ class ParentComment extends StatelessWidget {
                   const SizedBox(height: 2),
                   // Time
                   Text(
-                    timeAgo,
+                    getTimeAgo(timeAgo),
                     style: const TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
@@ -373,13 +409,21 @@ class ParentComment extends StatelessWidget {
         // Content text
         Padding(
           padding: const EdgeInsets.only(left: 52),
-          child: Text(
-            content,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              height: 1.3,
-            ),
+          child: Html(
+            data: content,
+            style: {
+              "body": Style(
+                margin: Margins.zero,
+                padding: HtmlPaddings.zero,
+                fontSize: FontSize(14.0),
+              ),
+              "p": Style(
+                margin: Margins.zero,
+                padding: HtmlPaddings.zero,
+                lineHeight: LineHeight(1.4),
+              ),
+            },
+            shrinkWrap: true,
           ),
         ),
         const SizedBox(height: 8),
@@ -422,6 +466,19 @@ class ParentComment extends StatelessWidget {
       ],
     );
   }
+
+  String getTimeAgo(DateTime date) {
+    final Duration diff = DateTime.now().difference(date);
+    if (diff.inSeconds < 60) {
+      return '${diff.inSeconds} seconds ago';
+    } else if (diff.inMinutes < 60) {
+      return '${diff.inMinutes} minutes ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} hours ago';
+    } else {
+      return '${diff.inDays} days ago';
+    }
+  }
 }
 
 /// A widget representing a reply to a parent comment.
@@ -433,13 +490,13 @@ class ReplyComment extends StatelessWidget {
   final int likesCount;
 
   const ReplyComment({
-    Key? key,
+    super.key,
     required this.avatarUrl,
     required this.name,
     required this.timeAgo,
     required this.content,
     required this.likesCount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
