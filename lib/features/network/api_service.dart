@@ -6,8 +6,7 @@ import "package:feed_spaces/features/models/spaces_model.dart";
 import "package:feed_spaces/features/network/api_endpoint.dart";
 
 class ApiService {
-  static final String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMTc0MzU3MDU1Njg1NjY4MTgiLCJpYXQiOjE3NDM0ODQxNTZ9.4eTKo8ojsW--DUfFQ82vFcpyoiF8LMA3LHGpN7My4PI";
+  static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMTc0NDA4NzI5NzQxMzIwNzgiLCJpYXQiOjE3NDQwMDA4OTd9.CVWoC4lG1krjux4xURpi2zMeeaCzmcDrmKXqAKBDR2M";
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: ApiEndpoint.baseUrl,
@@ -25,15 +24,43 @@ class ApiService {
 
 
   Future<dynamic> getData(
-      {required String url, bool isHeaderRequired = false}) async {
+      {required String url, bool isHeaderRequired = false, Map<String, dynamic>?queryParameter}) async {
     if (isHeaderRequired) {}
     print("Apicalling: $url");
     try {
-      Response response = await _dio.get(url, options: options);
+      Response response = await _dio.get(url, options: options, queryParameters: queryParameter );
       if (response.statusCode == 200) {
         return response.data;
       }
     } on Exception catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> postData(
+      {required String url, Map<String, dynamic>? params}) async {
+    try {
+      print("POST URL is : $url and PARAMS ARE : $params");
+      Response response = await _dio.post(url, data: params, options: options);
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+    } catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
+
+
+  Future<dynamic> deleteData({required String url}) async {
+try {
+      print("DELETE URL is : $url");
+      Response response = await _dio.delete(url, options: options);
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+    } catch (e) {
       log("Error: $e");
       return null;
     }
@@ -64,9 +91,9 @@ class ApiService {
     return null;
   }
 
-  Future<AllFeedsModel?> getSpacesPost(String slug) async {
+  Future<AllFeedsModel?> getSpacesPost(String slug, int page, int per_page) async {
     try{
-      final response = await getData(url: ApiEndpoint.getSpacesPosts(slug));
+      final response = await getData(url: ApiEndpoint.getSpacesPosts(slug), queryParameter: {"page": page, "per_page": per_page});
       // log("ApiUrl: $getSpacesPost)");
       log("Raw data1: ${response}");
       if(response == null){
